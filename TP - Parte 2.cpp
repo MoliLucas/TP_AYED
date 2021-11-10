@@ -1,21 +1,29 @@
-#include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #define F 14
 #define C 4
-
+#include <iostream>
 using namespace std;
+
+enum Vehiculo {
+	moto,
+	AUTO,
+	camioneta,
+	camion
+};
 
 
 struct PEDIDO{
 	float volumen;
 	int importe;
-	string calle;
-	int NumCalle;
+	string domicilio;
 	int zona;
 	int CodigoComercio;
+	Vehiculo vehiculo;
 };
+
+
 
 struct REPARTIDOR{
 	int doc;
@@ -36,17 +44,6 @@ void mostrarDatos(REPARTIDOR *);
 
 
 
-void listar (Nodo*lista)
-{
-	Nodo*r;
-	r=lista;
-	while(r!=NULL)
-	{
-		cout<< r->info.zona<<r->info.calle<<r->info.NumCalle<<r->info.volumen<<r->info.importe<<r->info.CodigoComercio<<endl;
-		r=r->sig;
-	}
-}
-
 void manejo(REPARTIDOR repart, int lugar,int Matriz[F][C], int &p);
 
 void ArmarVehiculo(char x[18],REPARTIDOR repart, int lugar, int &p);
@@ -59,59 +56,18 @@ int cargarVector(REPARTIDOR rep,int v[],FILE *f,int &p);
 
 void ordenar(int v[], unsigned t);
 
+void recibirPedido();
 
 
-void manejo (REPARTIDOR repart, int lugar, int Matriz[F][C], int &p){
-    int vehi;
-    char x[18];
-
-    cout<<" Ingrese que tipo de vehiculo tiene: \n";
-    cout<<" 1- Moto \n";
-    cout<<" 2- Automovil \n";
-    cout<<" 3- Camioneta \n";
-    cout<<" 4- Camion \n";
-    cin<<vehi;
-    
-    if(vehi < 5){
-    	cout<<"Sos un gil, elegi bien"<<endl;
-    	
-	}
-
-    Matriz [lugar-1][vehi-1]+=1;
- 
-    if(vehi==1){
-        strcpy(x,"RepMoto.dat");
-	}
-    else if(vehi==2){
-        strcpy(x,"RepAuto.dat");
-    }
-    else if(vehi==3){
-        strcpy(x,"RepCamion.dat");
-    } 
-    else if(vehi==4){
-        strcpy(x,"RepCamioneta.dat");
-    }
- 
-    ArmarVehiculo(x,repart,lugar,p);
-}
-
-                
-void ArmarVehiculo(char x[18],REPARTIDOR repart, int lugar, int &p){
-
-    cout<<"Ingrese su numero de documento: \n"<<endl;
-    cin>>repart.doc;
-    cout<<"Ingrese su zona (1-14): \n"<<endl;
-	cin>>lugar;       
-}   
-
-void  mostrarDatos(Repartidor *puntero_repartidor){
-	cout<<"repartidor "<<puntero_repartidor -> doc <<endl;
-	cout<<"repartidor "<<puntero_repartidor -> vehi <<endl;
-	cout<<"repartidor "<<puntero_repartidor -> lugar <<endl;
-	
-	
-}
-                       
+//
+//void  mostrarDatos(Repartidor *puntero_repartidor){
+//	cout<<"repartidor "<<puntero_repartidor -> doc <<endl;
+//	cout<<"repartidor "<<puntero_repartidor -> vehi <<endl;
+//	cout<<"repartidor "<<puntero_repartidor -> lugar <<endl;
+//	
+//	
+//}
+//                       
 
 int main ()
 {
@@ -160,67 +116,17 @@ int main ()
 	    switch (a)
 	    {
 	    	case 1:
-	    		cout<<" ------------------------------------ \n";
-	    		cout<<" Ingrese numero de zona (1-14) o 0 para cancelar: \n";
-	    		cin>> lugar;
+	    		recibirPedido();
+	    	
 	    		
-	    		if (lugar >= 1 && lugar <= 14){
-				
-	    		cout<<" Ingrese calle del domicilio: \n";
-	    		cin>> domicilio;
-	    		
-	    		cout<<" Ingrese numero de domicilio: \n";
-	    		cin>> Num_Dom;
-	    		
-	    		cout<<" Ingrese volumen del paquete: \n";
-	    		cin>> vol;
-	    		if (vol < 0.005){
-	    			cout<<" Sera necesaria una Moto para la entrega. \n \n";
-	    		}
-	    			else{
-	    				if (vol >= 0.005 && vol < 0.02){
-	    					cout<<" Sera necesario un Auto para la entrega. \n \n";
-	    				}
-	    					else{
-	    						if (vol >= 0.02 && vol < 8){
-	    							cout<<" Sera necesaria una Camioneta para la entrega. \n \n";
-	    						}
-	    							else{
-	    								if (vol > 8){
-	    									cout<<" Sera necesario un Camion para la entrega. \n \n";
-										}
-										
-									}
-								
-							} 
-						
-					}
-	    		
-	    		cout<<" Ingrese importe del paquete: \n";
-	    		cin>> imp;
-	    		
-	    		cout<< " Ingrese codigo de comercio: \n";
-	    		cin>> cod_com;
-	    		
-	    		lugar1.zona= lugar;
-	    		lugar1.calle= domicilio;
-	    		lugar1.NumCalle= Num_Dom;
-	    		lugar1.volumen= vol;
-	    		lugar1.importe= imp;
-	    		lugar1.CodigoComercio= cod_com;
-	            }
-	            else{
-	            	if (lugar == 0){
-	            	return main ();
-	                }
-	                    else{
-	                	    if (lugar >= 15){
-	                	    cout<<" ------------------------------------ \n";
-	                	    cout<<" ERROR --- ZONA NO DISPONIBLE \n";
-	                	    return main ();
-	                        }
-					    }
-				}
+//	    		lugar1.zona= lugar;
+//	    		lugar1.calle= domicilio;
+//	    		lugar1.NumCalle= Num_Dom;
+//	    		lugar1.volumen= vol;
+//	    		lugar1.importe= imp;
+//	    		lugar1.CodigoComercio= cod_com;
+	            
+	            
 	            
 	        	break;
 		     	   
@@ -238,7 +144,7 @@ int main ()
 	     	
 	    	case 3:
 	    		
-	    		mostrarDatos(puntero_repartidor);
+	    		//mostrarDatos(puntero_repartidor);
 	    		
 	    		
 	    		
@@ -253,7 +159,7 @@ int main ()
 	    		cout<< "\n \n";
 	    		if (b == 1)
 	    	    {
-	    			return 0;
+	    			exit(3);
 				}
 				else  
 				{
@@ -269,7 +175,7 @@ int main ()
 		} 	  	
 	}
 	
-void mostrarDatos
+//void mostrarDatos
 	
 
 	
@@ -277,6 +183,137 @@ while (a != 3);
 system("pause");
 return main();
 }
+
+
+
+void recibirPedido(){
+	
+	int zona;
+	char domicilio[60];
+	float vol;
+	int imp;
+	int cod_com;
+	Vehiculo vehiculo;
+	
+	
+		cout<<" ------------------------------------ \n";
+	    		cout<<" Ingrese numero de zona (1-14) o 0 para cancelar: \n";
+	    		cin>> zona;
+	    		
+	    		if (zona >= 1 && zona <= 14){
+				
+	    		cout<<" Ingrese el domicilio: \n";
+	    		cin.ignore();
+	    		cin.getline(domicilio,60);	    		
+	    		
+	    		cout<<" Ingrese volumen del paquete: \n";
+	    		cin>> vol;
+	    		if (vol < 0.005){
+	    			cout<<" Sera necesaria una Moto para la entrega. \n \n";
+	    			vehiculo = moto;
+	    		}
+	    			else{
+	    				if (vol >= 0.005 && vol < 0.02){
+	    					cout<<" Sera necesario un Auto para la entrega. \n \n";
+	    					vehiculo = AUTO;
+	    				}
+	    					else{
+	    						if (vol >= 0.02 && vol < 8){
+	    							cout<<" Sera necesaria una Camioneta para la entrega. \n \n";
+	    							vehiculo = camioneta;
+	    						}
+	    							else{
+	    								if (vol > 8){
+	    									cout<<" Sera necesario un Camion para la entrega. \n \n";
+	    									vehiculo = camion;
+										}
+										
+									}
+								
+							} 
+						
+					}
+	    		
+	    		cout<<" Ingrese importe del paquete: \n";
+	    		cin>> imp;
+	    		
+	    		cout<< " Ingrese codigo de comercio: \n";
+	    		cin>> cod_com;
+	    		
+	    		PEDIDO unPedido;
+	    		
+	    		unPedido.CodigoComercio = cod_com;
+	    		unPedido.domicilio = domicilio;
+	    		unPedido.importe = imp;
+	    		unPedido.volumen = vol;
+	    		unPedido.zona = zona;
+	    		unPedido.vehiculo = vehiculo;
+	    		
+	    		
+	    		
+			}else if (zona == 0){
+	            		main ();
+	            		exit;
+	                }
+            else if (zona >= 15){
+        	    cout<<" ------------------------------------ \n";
+        	    cout<<" ERROR --- ZONA NO DISPONIBLE \n";
+        	    main ();
+				exit;	                	    
+                }			
+	
+
+}
+
+void manejo (REPARTIDOR repart, int lugar, int Matriz[F][C], int &p){
+    int vehi;
+    char x[18];
+
+    cout<<" Ingrese que tipo de vehiculo tiene: \n";
+    cout<<" 1- Moto \n";
+    cout<<" 2- Automovil \n";
+    cout<<" 3- Camioneta \n";
+    cout<<" 4- Camion \n";
+
+    Matriz [lugar-1][vehi-1]+=1;
+ 
+    if(vehi==1){
+        strcpy(x,"RepMoto.dat");
+	}
+    else if(vehi==2){
+        strcpy(x,"RepAuto.dat");
+    }
+    else if(vehi==3){
+        strcpy(x,"RepCamion.dat");
+    } 
+    else if(vehi==4){
+        strcpy(x,"RepCamioneta.dat");
+    }
+ 
+    ArmarVehiculo(x,repart,lugar,p);
+}
+
+                
+void ArmarVehiculo(char x[18],REPARTIDOR repart, int lugar, int &p){
+
+    cout<<"Ingrese su numero de documento: \n"<<endl;
+    cin>>repart.doc;
+    cout<<"Ingrese su zona (1-14): \n"<<endl;
+	cin>>lugar;       
+}   
+
+
+void listar (Nodo*lista)
+{
+	Nodo*r;
+	r=lista;
+	while(r!=NULL)
+	{
+		//cout<< r->info.zona<<r->info.calle<<r->info.NumCalle<<r->info.volumen<<r->info.importe<<r->info.CodigoComercio<<endl;
+		r=r->sig;
+	}
+}
+
 
 //void zona (int algo){
 	
