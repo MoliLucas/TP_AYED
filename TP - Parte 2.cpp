@@ -108,6 +108,8 @@ void  mostrarDatos(Repartidor *puntero_repartidor){
 	cout<<"repartidor "<<puntero_repartidor -> doc <<endl;
 	cout<<"repartidor "<<puntero_repartidor -> vehi <<endl;
 	cout<<"repartidor "<<puntero_repartidor -> lugar <<endl;
+	
+	
 }
                        
 
