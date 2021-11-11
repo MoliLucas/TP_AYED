@@ -33,7 +33,7 @@ struct REPARTIDOR{
 } repartidor, *puntero_repartidor = &repartidor ;
 
 struct Nodo{
-	PEDIDO* dato;
+	PEDIDO dato;
 	Nodo *siguiente;
 };
 
@@ -60,12 +60,12 @@ void recibirPedido();
 
 //Prototipos de Función
 
-void insertarCola(Nodo *&,Nodo *&,PEDIDO*);
+void insertarCola(Nodo *&,Nodo *&,PEDIDO);
 bool cola_vacia(Nodo *);
-void suprimirCola(Nodo *&,Nodo *&,PEDIDO );
-PEDIDO* damePedidoPendiente();
+void suprimirCola(Nodo *&,Nodo *&, PEDIDO&);
+PEDIDO damePedidoPendiente();
 void mostrarPedidos();
-void mostrarPedido(PEDIDO*);
+void mostrarPedido(PEDIDO);
 
 //
 //void  mostrarDatos(Repartidor *puntero_repartidor){
@@ -147,10 +147,8 @@ int main ()
 		     	   
 	    	case 2:
 	    		
-	    		manejo (repart, lugar, Matriz, p);
-	    		
-	    		
-	    		
+	    		manejo (repart, lugar, Matriz, p);   		
+	    			    		
 	    		
 	    		ArmarVehiculo ( x,repart, lugar, p);
 	    		 
@@ -158,7 +156,7 @@ int main ()
 	    		break;
 	     	
 	    	case 3:
-	    		mostrarPedidos();
+	    		//mostrarPedidos();
 	    			    		
 	    		break;
 	     	
@@ -251,14 +249,14 @@ void recibirPedido(){
 	    		cout<< " Ingrese codigo de comercio: \n";
 	    		cin>> cod_com;
 	    		
-	    		PEDIDO* unPedido = new PEDIDO();
+	    		PEDIDO unPedido;
 	    		
-	    		unPedido->CodigoComercio = cod_com;
-	    		unPedido->domicilio = domicilio;
-	    		unPedido->importe = imp;
-	    		unPedido->volumen = vol;
-	    		unPedido->zona = zona;
-	    		unPedido->vehiculo = vehiculo;
+	    		unPedido.CodigoComercio = cod_com;
+	    		unPedido.domicilio = domicilio;
+	    		unPedido.importe = imp;
+	    		unPedido.volumen = vol;
+	    		unPedido.zona = zona;
+	    		unPedido.vehiculo = vehiculo;
 	    		
 	    		insertarCola(pedPendfrente, pedPendfin, unPedido);
 	    		
@@ -327,7 +325,7 @@ void listar (Nodo*lista)
 
 
 //Función para insertar elementos en la cola
-void insertarCola(Nodo *&frente,Nodo *&fin,PEDIDO* n){
+void insertarCola(Nodo *&frente,Nodo *&fin,PEDIDO n){
 	Nodo *nuevo_nodo = new Nodo();
 	
 	nuevo_nodo->dato = n;
@@ -349,7 +347,7 @@ bool cola_vacia(Nodo *frente){
 }
 
 //Función para eliminar elementos de la cola
-void suprimirCola(Nodo *&frente,Nodo *&fin,PEDIDO* n){
+void suprimirCola(Nodo *&frente,Nodo *&fin, PEDIDO &n){
 	n = frente->dato;
 	Nodo *aux = frente;
 	
@@ -364,9 +362,9 @@ void suprimirCola(Nodo *&frente,Nodo *&fin,PEDIDO* n){
 }
 
 
-PEDIDO* damePedidoPendiente(){
+PEDIDO damePedidoPendiente(){
 	
-	PEDIDO* unPedido = new PEDIDO();
+	PEDIDO unPedido;
 	
 	suprimirCola(pedPendfrente,pedPendfin,unPedido);
 	
@@ -383,7 +381,7 @@ void mostrarPedidos(){
 	else
 	{	
 		while(!cola_vacia(pedPendfrente)){
-			PEDIDO* pedido = damePedidoPendiente();	
+			PEDIDO pedido = damePedidoPendiente();	
 			mostrarPedido(pedido);	
 		}
 		
@@ -393,9 +391,9 @@ void mostrarPedidos(){
 	
 }
 
-void mostrarPedido(PEDIDO* unPedido){
+void mostrarPedido(PEDIDO unPedido){
 	
-		cout<<"PEDIDO: "<<unPedido->CodigoComercio << " " << unPedido->domicilio ;
+		cout<<"PEDIDO: "<<unPedido.CodigoComercio << " " << unPedido.domicilio<<endl ;
 	
 }
 
